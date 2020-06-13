@@ -1,2 +1,2 @@
 # DePaul
-CS
+Computer Science & Data Science
