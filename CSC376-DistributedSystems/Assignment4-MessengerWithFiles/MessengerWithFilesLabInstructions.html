@@ -1,0 +1,222 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="CONTENT-TYPE" content="text/html; charset=utf-8">
+	<title>CSC 376 Distributed Systems -- Programming Exercise</title>	
+	<style type="text/css">
+	p {
+		margin-bottom: 6px;
+		margin-top: 6px;
+		font-size: 16pt;
+	}
+	.dashed_gray_border {
+		border: 2px dashed gray;
+	}
+	.dashed_gray_box {
+		border: 2px dashed gray;
+		background-color: #efefef;
+		padding-left: 10px;
+	}			
+	.centered_dashed_gray_box {
+		border: 2px dashed gray;
+		background-color: #efefef;
+		text-align: center;
+	}			
+	#table_of_contents {
+		border: 2px dashed gray;
+		border-bottom: none;
+		background: #efefef;
+		margin: 0px;
+		margin-top: 20px;
+		padding-left: 10px;
+	}
+	#contents_list {
+		border: 2px dashed gray;
+		padding: 10px;
+		padding-left: 20px;
+	}
+	h4#header {
+		border: 2px dashed gray;
+		font-size: 2em;
+		font-weight: bold;
+		color: black;
+		background: #efefef;
+		margin-bottom: 0px;
+		padding-left: 10px;
+	}
+	li {
+		margin-top: 10px;
+		font-size: 16pt;
+	}
+	pre {
+		font-size: 16pt;
+		font-weight: bold;
+		color: #000080;
+		border: 1px solid gray;
+		padding: 10px;
+		background: #efefff;	
+		tab-size: 3;
+	}
+	dt {
+		font-weight: bold;
+	}
+	th {
+		font-size: 16pt;
+	}
+	td {
+		font-size: 16pt;
+	}
+	td.bold_right {
+		font-weight: bold;
+		text-align: right;
+	}
+	</style>
+</head>
+<body dir="ltr" lang="en-US">
+	<div class="centered_dashed_gray_box">
+		<h1><a name="CourseTitle"></a>CSC 376 Distributed Systems</h1>
+		<h3><a name="Lecturer"></a><i>Karen Heart, Instructor</i></h3>
+		<h3><a name="Title"></a>Programming Exercise 4</h3>
+	</div>
+	<h1 class="dashed_gray_box">Messenger with File Transfers</h1>	
+	<ul>
+		<li><h2>Functionality</h2>
+		<p>You are to create an enhanced direct messenger program. In particular, the program will perform as follows:</p>
+			<ol>				
+			<li>It must behave as either a client or a server, depending on the command line arguments supplied when started.</li>
+			<li>In addition to transmitting and receiving messages, the program will also transfer files using a binary transfer method, meaning that all of the bytes of a file will be transmitted exactly as is.</li>
+			<li>Because the program must also transfer files, it will listen for file transfer requests. Consequently, the program must contain a server to listen for file requests.</li>
+			<li>For purposes of this exercise, you may hard-code your program to connect to localhost.</li>
+			<li>Once the client and server messengers are connected, either end can send messages, <b>at will</b>, to the other end.</li>
+			<li>Messages must be provided to the program using standard input.</li>
+			<li>Immediately after receiving a message, the program must output the message to standard output.</li>
+			<li>A user may request a file from the other endpoint <b>at any time</b>. The user must supply the name of the requested file using standard input.</li>
+			<li>When the other end receives a file transfer request, it must immediately send all of the bytes in the file to the other end. If the file cannot be found or read, the program may simply ignore the request but it may <b>not</b> terminate.</li>
+			<li>When the requesting program receives the file bytes, it must store them in a file with the same name in the local directory.</li>
+			<li>Because the program will be menu-driven, the user will terminate the program by using standard input to select an appropriate option (see below).</li>
+			<li>The program is terminated by first shutting down sending, then closing the socket. Once one end shuts down, the other side will receive a zero-length message, informing it of the shut down. The other side must then shut down immediately.</li>
+			</ol></li>
+		<li><h2>User Interface</h2>
+			<ul>
+			<li>As explained above, the user will interact with the program through standard input. In order to facilitate interaction, as well as for evaluation, the program must conform to the following input standards:
+				<ol>
+				<li>The program must display a menu of options for the user to choose from. Each option is associated with a single letter, as shown. The options are:
+					<ul>
+					<li>Send a message (m)</li>
+					<li>Request a file (f)</li>
+					<li>Exit the program (and disconnect from the other messenger) (x)</li>
+					</ul></li>
+				<li>The user may enter an option using a lower-case letter.</li>
+				<li>In order to send a message, the user chooses the message option by typing the <code>'m'</code> character and pressing the <code>Enter</code> key. The user then types the message. After the user enters the message, the program redisplays the menu for the next user action.</li>
+				<li>In order to request a file, the user chooses the option to request a file, <code>'f'</code>. The program must then prompt the user to enter the name of the file. After the user enters the file request information, the program redisplays the menu for the next user action while the file transfer request is processed in another thread. Hence, the user may be able to continue sending messages and requesting other files while prior file requests are being processed.</li>
+				<li>The program will shutdown any connections and terminate as soon as the user enters the <code>'x'</code> option.</li>
+				</ol></li>
+			<li>Example interaction:
+				<ul>
+				<li>
+<pre>
+Enter an option ('m', 'f', 'x'):
+  (M)essage (send)
+  (F)ile (request)
+ e(X)it
+m
+Enter your message:
+hello!
+Enter an option ('m', 'f', 'x'):
+  (M)essage (send)
+  (F)ile (request)
+ e(X)it
+f
+Which file do you want?
+Ameca_splendens.jpg
+Enter an option ('m', 'f', 'x'):
+  (M)essage (send)
+  (F)ile (request)
+ e(X)it
+m
+Enter your message:
+another important message!
+Enter an option ('m', 'f', 'x'):
+  (M)essage (send)
+  (F)ile (request)
+ e(X)it
+x
+closing your sockets...goodbye
+</pre></li>
+				</ul></li>
+			</ul></li>			
+		<li><h2>Usage</h2>
+			<ul>
+			<li>The program must be started with the <code>-l</code> option, which is the socket its server will listen on.</li>
+			<li>If the program is to act as a client, two more options may be used. An <code>-s</code> option specifies the address of the server to connect to, and <code>-p</code> specifies the port number of the server to connect to. If the <code>-s</code> option is not used, then the program connects to <code>localhost</code>.</li>			
+			<li>Usage as a server:
+				<ul>
+				<li>Python:
+<pre>
+$> python messenger_with_files.py -l &lt;listening port number&gt; 
+</pre></li>
+				<li>Java:
+<pre>
+$> java MessengerWithFiles -l &lt;listening port number&gt; 
+</pre></li>
+				</ul></li>
+			<li>Usage as a client:
+				<ul>
+				<li>Python:
+<pre>
+$> python messenger_with_files.py -l &lt;listening port number&gt; \
+ -p &lt;connect server port&gt; [-s] [connect server address] 
+</pre></li>
+				<li>Java:
+<pre>
+$> java MessengerWithFiles -l &lt;listening port number&gt; \
+ -p &lt;connect server port&gt; [-s] [connect server address]
+</pre></li>
+				</ul></li>				
+			</ul></li>
+		<li><h2>Testing and Assessment</h2>
+			<ul>
+			<li>Automated grading tools for this assignment are contained within the tar file <code>tests-messenger-with-files.tar</code>. Download the tar file from D2L and place it in the same directory as your code. Then, extract the grading files by using the following command in a terminal window:
+<pre>
+$> cd /path/to/my/code
+$> tar xvf tests-messenger-with-files.tar
+</pre></li>
+			<li>There are two grading tools, <code>test1</code> and <code>test2</code>, including their supporting scripts and files.</li>
+			<li>The first grading tool, <code>test1</code>, is designed to evaluate the basic operation of your code. 
+			<li>If your code passes <code>test1</code>, it outputs the message:
+			<pre>test1 terminated properly</pre></li>
+			<li>If your code fails <code>test1</code>, however, an appropriate error message is output. In that case, your grade for the exercise is zero (0) points!</li>
+			<li><b>Thus, your code must pass <code>test1</code> in order to earn any points!</b></li>
+			<li>Assuming that your code passes <code>test1</code>, <code>test2</code> conducts additional tests and awards points. In that case, your grade for this exercise are the points awarded by <code>test2</code>.</li>
+			<li>NOTE: In order to work with the test structure, your code must assume that all files sent and received are located in the local directory. Thus, <b>DO NOT INCLUDE PATH INFORMATION WHEN OPENING FILES FOR READING OR WRITING!</b></li>
+			<li>If you are using Python, the grading tools expect the name of your program to be <code>messenger_with_files.py</code></li>
+			<li>If you are using Java, the grading tools expect the name of your program to be <code>MessengerWithFiles.class</code></li>
+			<li>Note: If you are using Java, you must compile your code before running the grading tools. The grading tools will <i>not</i> compile your Java code.</li>
+			<li>Run the <code>test1</code> tool from the command line. If your code was written in Python, start <code>test1</code> as follows:
+<pre>
+$> py test1-messenger-with-files-py.py
+</pre></li>
+			<li>If your code was written in Java, start <code>test1</code> as follows:
+<pre>
+$> py test1-messenger-with-files-java.py
+</pre></li>
+			<li>If your code passes <code>test1</code>, run the <code>test2</code> tool from the command line. If your code was written in Python, start <code>test2</code> as follows:
+<pre>
+$> py test2-messenger-with-files-py.py
+</pre></li>
+			<li>If your code was written in Java, start <code>test2</code> as follows:
+<pre>
+$> py test2-messenger-with-files-java.py
+</pre></li>
+			<li>If it runs successfully, the <code>test2</code> tool will output the total number of points earned.</li>
+			<li>If <code>test2</code> fails, an error message will be displayed and no points are earned.</li>
+			<li>This exercise is worth 14 points.</li>
+			</ul>
+		</li>
+		<li><h2>Submission</h2>
+		<p><b>SUBMIT ONLY THE FOLLOWING TO THE SUBMISSIONS FOLDER ON D2L; ALL OTHER SUBMISSIONS WILL BE IGNORED:</p>
+			<ol>
+			<li>your .py or .java source files</li>
+			</ol></b></li>
+	</ul>
+</body></html>
