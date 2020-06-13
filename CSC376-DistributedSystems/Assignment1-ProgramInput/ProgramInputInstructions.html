@@ -1,0 +1,199 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="CONTENT-TYPE" content="text/html; charset=utf-8">
+	<title>CSC 376 Distributed Systems -- Programming Exercise</title>	
+	<style type="text/css">
+	p {
+		margin-bottom: 6px;
+		margin-top: 6px;
+		font-size: 16pt;
+	}
+	.dashed_gray_border {
+		border: 2px dashed gray;
+	}
+	.dashed_gray_box {
+		border: 2px dashed gray;
+		background-color: #efefef;
+		padding-left: 10px;
+	}			
+	.centered_dashed_gray_box {
+		border: 2px dashed gray;
+		background-color: #efefef;
+		text-align: center;
+	}			
+	#table_of_contents {
+		border: 2px dashed gray;
+		border-bottom: none;
+		background: #efefef;
+		margin: 0px;
+		margin-top: 20px;
+		padding-left: 10px;
+	}
+	#contents_list {
+		border: 2px dashed gray;
+		padding: 10px;
+		padding-left: 20px;
+	}
+	h4#header {
+		border: 2px dashed gray;
+		font-size: 2em;
+		font-weight: bold;
+		color: black;
+		background: #efefef;
+		margin-bottom: 0px;
+		padding-left: 10px;
+	}
+	li {
+		margin-top: 10px;
+		font-size: 16pt;
+	}
+	pre {
+		font-size: 16pt;
+		font-weight: bold;
+		color: #000080;
+		border: 1px solid gray;
+		padding: 10px;
+		background: #efefff;	
+		tab-size: 3;
+	}
+	dt {
+		font-weight: bold;
+	}
+	th {
+		font-size: 16pt;
+	}
+	td {
+		font-size: 16pt;
+	}
+	td.bold_right {
+		font-weight: bold;
+		text-align: right;
+	}
+	</style>
+</head>
+<body dir="ltr" lang="en-US">
+	<div class="centered_dashed_gray_box">
+		<h1><a name="CourseTitle"></a>CSC 376 Distributed Systems</h1>
+		<h3><a name="Lecturer"></a><i>Karen Heart, Instructor</i></h3>
+		<h3><a name="Title"></a>Programming Exercise 1</h3>
+	</div>
+	<h1 class="dashed_gray_box">Program Input</h1>	
+	<ul>
+		<li><h2>Functionality</h2>
+		<p>You are to create a program that properly handles two types of input-- command line arguments and standard input. The purpose of this exercise is to ensure that you can effectively handle both types of input and that you clearly understand the differences. In particular, the program will perform as follows:</p>
+			<ol>
+			<li>There are three possible command line arguments for this program: option1, option2, and option3. Each option appears following a single dash ('-'). A word of text follows <b>certain options</b>. Your program must read the actual arguments present and store any additional data associated with them.</li>
+			<li>The options appear on the command line as follows:
+				<ul>
+				<li>option1: -o</li>
+				<li>option2: -t</li>
+				<li>option3: -h</li>
+				</ul></li>
+			<li>A word <b>always</b> follows option1 and option2. There is <b>no data following option3</b>.</li>
+			<li>Any, all, or none of these options may be present on the command line; moreover, they may be present in any order. <b>Your program must properly handle all possible combinations.</b> For example, option3 (-h) may be present, followed by option1 (-o), while option2 is not present on the command line.</li>
+			<li>In addition to command line arguments, your program must also read data from standard input.</li>
+			<li>Your program will read data from standard input one line at a time. Your program must continue reading until there is no more data from standard input.</li>
+			<li>When your program starts, it must output the heading, "Standard Input:" (without quotation marks).</li>
+			<li>As your program reads a line from standard input, it will output the line <b>immediately</b> to standard output.</li>
+			<li>Once all data has been read from standard input and output accordingly, your program will output the heading, "Command line arguments:" (again, without quotation marks); your program will then display a list of the command line options found, along with their data, <b>in numeric order</b>. In other words, option1 must be displayed first, if present, then option2, and finally option3. The heading must be output even if there are no command line arguments. <b>DO NOT DISPLAY AN OPTION IF IT IS NOT PRESENT ON THE COMMAND LINE.</b></li>
+			<li>If you write your program using Python, you can use the <code>getopt.getopt</code> function, which will do much of the heavy lifting for you.</li>
+			</ol></li>
+		<li><h2>Example 1: Execution on Windows (&lt; Windows 10)</h2>
+			<ul>
+			<li>Command line:
+				<ul>
+				<li>Python:
+<pre>
+C:\Users\Karen\PyCode> py input_program.py -h -t giraffe
+</pre></li>
+				<li>Java:
+<pre>
+C:\Users\Karen\Eclipse> java InputProgram -h -t giraffe
+</pre></li>
+				</ul></li>
+			<li>Standard input entered: <code>zebra, hyena, CTRL-z</code></li>
+			<li>Output as it should appear:
+<pre>
+Standard Input:
+zebra
+zebra
+hyena
+hyena
+^Z
+Command line arguments:
+option 2: giraffe
+option 3
+</pre></li>
+			</ul></li>
+		<li><h2>Example 2: Execution on Linux, Mac, or Windows 10 (depending on configuration)</h2>
+			<ul>
+			<li>Command line:
+				<ul>
+				<li>Python:
+<pre>
+[karen@kheart-all]$ py input_program.py -t lion -h -o elephant
+</pre></li>
+				<li>Java:
+<pre>
+[karen@kheart-all]$ java InputProgram -t lion -h -o elephant
+</pre></li>
+				</ul></li>
+			<li>Standard input entered: <code>hippopotamus, CTRL-d</code></li>
+			<li>Output:
+<pre>
+Standard Input:
+hippopotamus
+hippopotamus
+Command line arguments:
+option 1: elephant
+option 2: lion
+option 3
+</pre></li>
+			</ul></li>
+		<li><h2>Testing and Assessment</h2>
+			<ul>
+			<li>Automated grading tools for this assignment are contained within the tar file <code>tests-args-input.tar</code>. Download the tar file from D2L and place it in the same directory as your code. Then, extract the grading files by using the following command in a terminal window:
+<pre>
+$> cd /path/to/my/code
+$> tar xvf tests-args-input.tar
+</pre></li>
+			<li>There are two grading tools, <code>test1</code> and <code>test2</code>, including their supporting scripts and files.</li>
+			<li>The first grading tool, <code>test1</code>, is designed to evaluate the basic operation of your code. 
+			<li>If your code passes <code>test1</code>, it outputs the message:
+			<pre>test1 terminated properly</pre></li>
+			<li>If your code fails <code>test1</code>, however, an appropriate error message is output. In that case, your grade for the exercise is zero (0) points!</li>
+			<li><b>Thus, your code must pass <code>test1</code> in order to earn any points!</b></li>
+			<li>Assuming that your code passes <code>test1</code>, <code>test2</code> conducts additional tests and awards points. In that case, your grade for this exercise are the points awarded by <code>test2</code>.</li>
+			<li>If you are using Python, the grading tools expect the name of your program to be <code>input_program.py</code></li>
+			<li>If you are using Java, the grading tools expect the name of your program to be <code>InputProgram.class</code></li>
+			<li>Note: If you are using Java, you must compile your code before running the grading tools. The grading tools will <i>not</i> compile your Java code.</li>
+			<li>Run the <code>test1</code> tool from the command line. If your code was written in Python, start <code>test1</code> as follows:
+<pre>
+$> py test1-args-input-py.py
+</pre></li>
+			<li>If your code was written in Java, start <code>test1</code> as follows:
+<pre>
+$> py test1-args-input-java.py
+</pre></li>
+			<li>If your code passes <code>test1</code>, run the <code>test2</code> tool from the command line. If your code was written in Python, start <code>test2</code> as follows:
+<pre>
+$> py test2-args-input-py.py
+</pre></li>
+			<li>If your code was written in Java, start <code>test2</code> as follows:
+<pre>
+$> py test2-args-input-java.py
+</pre></li>
+			<li>If it runs successfully, the <code>test2</code> tool will output the total number of points earned.</li>
+			<li>If <code>test2</code> fails, an error message will be displayed and no points are earned.</li>
+			<li>This exercise is worth 9 points.</li>
+			</ul>
+		</li>
+		<li><h2>Submission</h2>
+		<p><b>SUBMIT ONLY THE FOLLOWING TO THE SUBMISSIONS FOLDER ON D2L; ALL OTHER SUBMISSIONS WILL BE IGNORED:</p>
+			<ol>
+			<li>your .py or .java source files</li>
+			<li>the URL of your YouTube video explaining each line of your source code</li>
+			</ol></b></li>
+	</ul>
+</body></html>
