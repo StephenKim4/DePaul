@@ -1,0 +1,169 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="CONTENT-TYPE" content="text/html; charset=utf-8">
+	<title>CSC 376 Distributed Systems -- Programming Exercise</title>	
+	<style type="text/css">
+	p {
+		margin-bottom: 6px;
+		margin-top: 6px;
+		font-size: 16pt;
+	}
+	.dashed_gray_border {
+		border: 2px dashed gray;
+	}
+	.dashed_gray_box {
+		border: 2px dashed gray;
+		background-color: #efefef;
+		padding-left: 10px;
+	}			
+	.centered_dashed_gray_box {
+		border: 2px dashed gray;
+		background-color: #efefef;
+		text-align: center;
+	}			
+	#table_of_contents {
+		border: 2px dashed gray;
+		border-bottom: none;
+		background: #efefef;
+		margin: 0px;
+		margin-top: 20px;
+		padding-left: 10px;
+	}
+	#contents_list {
+		border: 2px dashed gray;
+		padding: 10px;
+		padding-left: 20px;
+	}
+	h4#header {
+		border: 2px dashed gray;
+		font-size: 2em;
+		font-weight: bold;
+		color: black;
+		background: #efefef;
+		margin-bottom: 0px;
+		padding-left: 10px;
+	}
+	li {
+		margin-top: 10px;
+		font-size: 16pt;
+	}
+	pre {
+		font-size: 16pt;
+		font-weight: bold;
+		color: #000080;
+		border: 1px solid gray;
+		padding: 10px;
+		background: #efefff;	
+		tab-size: 3;
+	}
+	dt {
+		font-weight: bold;
+	}
+	th {
+		font-size: 16pt;
+	}
+	td {
+		font-size: 16pt;
+	}
+	td.bold_right {
+		font-weight: bold;
+		text-align: right;
+	}
+	</style>
+</head>
+<body dir="ltr" lang="en-US">
+	<div class="centered_dashed_gray_box">
+		<h1><a name="CourseTitle"></a>CSC 376 Distributed Systems</h1>
+		<h3><a name="Lecturer"></a><i>Karen Heart, Instructor</i></h3>
+		<h3><a name="Title"></a>Programming Exercise 3</h3>
+	</div>
+	<h1 class="dashed_gray_box">Chat</h1>	
+	<ul>
+		<li><h2>Functionality</h2>
+		<p>You are to create a chat system. In particular, you will create a chat client and a chat server. You may use your Messenger code as a base for this project, although you will have to revise that code significantly. Notably, the client and the server must be separate programs. Your system will perform as follows:</p>
+			<ol>				
+			<li>The server will listen for connections from clients.</li>
+			<li>Once a client is connected, it can send messages to the server. It will also receive from the server all messages sent from the other connected clients.</li>
+			<li><b>NOTE:</b> The first message sent by the client must be the name of the user, in order for the server to forward the name of the user with each messenge sent.</li>			
+			<li>Messages must be provided to the client using standard input.</li>
+			<li>Immediately after receiving a message, the server must forward the message and the name of the user who sent the message to all connected clients, except for the client that sent the message. <b>DO NOT SEND THE MESSAGE BACK TO THE ORIGINATING CLIENT!</b></li>			
+			<li> The format of the combined name and message includes a colon, followed by a single space, immediately after the name of the sender; the message follows. Hence, the format can be represented as follows:
+<pre>
+&lt;sender name&gt;: &lt;message&gt;
+</pre></li>
+			<li>Once it receives a message, which now includes the name of the sender, the client will write the message to standard output.</li>
+			<li>The client must write each message on its own line of output.</li>
+			<li>When a client closes its socket, the server will remove that client from its list, but the server will continue to run and the other connected clients will be able to continue exchanging messages. Additionally, new clients will be able to connect and exchange messages.</li>
+			</ol></li>
+		<li><h2>Usage</h2>
+			<ul>
+			<li>Server:
+				<ul>
+				<li>Python:
+<pre>
+$> python ChatServer.py &lt;port number&gt;
+</pre></li>
+				<li>Java:
+<pre>
+$> java ChatServer &lt;port number&gt;
+</pre></li>
+				</ul></li>
+			<li>Client:
+				<ul>
+				<li>Python:
+<pre>
+$> python ChatClient.py &lt;port number&gt;
+</pre></li>
+				<li>Java:
+<pre>
+$> java ChatClient &lt;port number&gt;
+</pre></li>
+				</ul></li>				
+			</ul></li>
+		<li><h2>Testing and Assessment</h2>
+			<ul>
+			<li>Automated grading tools for this assignment are contained within the tar file <code>tests-chat.tar</code>. Download the tar file from D2L and place it in the same directory as your code. Then, extract the grading files by using the following command in a terminal window:
+<pre>
+$> cd /path/to/my/code
+$> tar xvf tests-chat.tar
+</pre></li>
+			<li>There are two grading tools, <code>test1</code> and <code>test2</code>, including their supporting scripts and files.</li>
+			<li>The first grading tool, <code>test1</code>, is designed to evaluate the basic operation of your code. 
+			<li>If your code passes <code>test1</code>, it outputs the message:
+			<pre>test1 terminated properly</pre></li>
+			<li>If your code fails <code>test1</code>, however, an appropriate error message is output. In that case, your grade for the exercise is zero (0) points!</li>
+			<li><b>Thus, your code must pass <code>test1</code> in order to earn any points!</b></li>
+			<li>Assuming that your code passes <code>test1</code>, <code>test2</code> conducts additional tests and awards points. In that case, your grade for this exercise are the points awarded by <code>test2</code>.</li>
+			<li>If you are using Python, the grading tools expect the name of your server program to be <code>ChatServer.py</code> and the name of your client program to be <code>ChatClient.py</code></li>
+			<li>If you are using Java, the grading tools expect the name of your server program to be <code>ChatServer.class</code> and the name of your client program to be <code>ChatClient.class</code></li>
+			<li>Note: If you are using Java, you must compile your code before running the grading tools. The grading tools will <i>not</i> compile your Java code.</li>
+			<li>Run the <code>test1</code> tool from the command line. If your code was written in Python, start <code>test1</code> as follows:
+<pre>
+$> py test1-chat-py.py
+</pre></li>
+			<li>If your code was written in Java, start <code>test1</code> as follows:
+<pre>
+$> py test1-chat-java.py
+</pre></li>
+			<li>If your code passes <code>test1</code>, run the <code>test2</code> tool from the command line. If your code was written in Python, start <code>test2</code> as follows:
+<pre>
+$> py test2-chat-py.py
+</pre></li>
+			<li>If your code was written in Java, start <code>test2</code> as follows:
+<pre>
+$> py test2-chat-java.py
+</pre></li>
+			<li>If it runs successfully, the <code>test2</code> tool will output the total number of points earned.</li>
+			<li>If <code>test2</code> fails, an error message will be displayed and no points are earned.</li>
+			<li>This exercise is worth 17 points.</li>
+			</ul>
+		</li>		
+		<li><h2>Submission</h2>
+		<p><b>SUBMIT ONLY THE FOLLOWING TO THE SUBMISSIONS FOLDER ON D2L; ALL OTHER SUBMISSIONS WILL BE IGNORED:</p>
+			<ol>
+			<li>your .py or .java source files</li>
+			<li>the URL of your YouTube video explaining each line of your source code</li>
+			</ol></b></li>
+	</ul>
+</body></html>
